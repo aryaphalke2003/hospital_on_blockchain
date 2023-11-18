@@ -33,7 +33,7 @@ const Profile = () => {
             {accountType === "DOCTOR" && <DoctorProfile />}
             {accountType === "HOSPITAL" && <HospitalProfile />}
             {accountType === "PATIENT" && <PatientProfile />}
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 }

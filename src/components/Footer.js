@@ -8,7 +8,7 @@ import { Box } from "@mui/material"
 const Footer = () => {
     return (
         <Box
-            component="footer"
+            component="Footer"
             sx={{
 
                 p: 6,
