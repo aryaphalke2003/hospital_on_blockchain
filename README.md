@@ -10,6 +10,11 @@ remix to deploy
 use ganache
 
 
+Open ganache
+Set url to localhost 8001 in settings 
+done
+
+
 ## Usage
 npm i
 npm run start
