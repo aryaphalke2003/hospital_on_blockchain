@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import { hospitalABI } from '../abis/hospital'
 const web3 = new Web3(process.env.REACT_APP_BLOCKCHAIN_PROVIDER_URL);
-const hospitalAddress = process.env.REACT_APP_HOSPITAL_CONTRACT_ADDRESS
+const hospitalAddress = process.env.REACT_APP_HOSPITAL_CONTRACT_ADDRESS;
 const doctorContract = new web3.eth.Contract(hospitalABI, hospitalAddress);
 const hospitalContract = new web3.eth.Contract(hospitalABI, hospitalAddress);
 const diagContract = new web3.eth.Contract(hospitalABI, hospitalAddress);

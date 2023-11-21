@@ -209,7 +209,8 @@ const PatientLogin = () => {
 
         console.log("sdf");
         console.log(accounts[0]);
-        // const res = await register_patient(data1, accounts[0]);
+        console.log(data1);
+        const res = await register_patient(data1, accounts[0]);
         console.log("Sdfsdf");
         // console.log(res);
         enqueueSnackbar("Please wait for a few seconds, Registration takes time!", { variant: "info" })
