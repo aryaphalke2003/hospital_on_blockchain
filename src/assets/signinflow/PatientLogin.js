@@ -212,41 +212,41 @@ const PatientLogin = () => {
         console.log(data1);
         const res = await register_patient(data1, accounts[0]);
         console.log("Sdfsdf");
-        // console.log(res);
+        console.log(res);
         enqueueSnackbar("Please wait for a few seconds, Registration takes time!", { variant: "info" })
-        // if (res.message) {
-        //     enqueueSnackbar(res.message, { variant: "error" });
-        // }
-        // else {
+        if (res.message) {
+            enqueueSnackbar(res.message, { variant: "error" });
+        }
+        else {
             setIsLoading(true);
             setTimeout(async () => {
-                // const getProfile = await getPatientOwnProfile(accounts[0]);
-                // if (getProfile.message) {
-                //     enqueueSnackbar(getProfile.message, { variant: "error" });
-                //     setIsLoading(false);
-                // }
-                // else {
+                const getProfile = await getPatientOwnProfile(accounts[0]);
+                if (getProfile.message) {
+                    enqueueSnackbar(getProfile.message, { variant: "error" });
+                    setIsLoading(false);
+                }
+                else {
                     const profile = {
-                        // name: getProfile["name"],
-                        // age: Number(getProfile["age"]),
-                        // email: getProfile["email"],
-                        // mobile: Number(getProfile["mobile"]),
-                        // gender: getProfile["gender"]
-                        name: "Arya",
-                        age: 18,
-                        email: "aryaphalke2003@gmail.com",
-                        mobile: 9881540555,
-                        gender: "Male"
+                        name: getProfile["name"],
+                        age: Number(getProfile["age"]),
+                        email: getProfile["email"],
+                        mobile: Number(getProfile["mobile"]),
+                        gender: getProfile["gender"]
+                        // name: "Arya",
+                        // age: 18,
+                        // email: "aryaphalke2003@gmail.com",
+                        // mobile: 9881540555,
+                        // gender: "Male"
                     }
-                    // setIsLoading(false);
+                    setIsLoading(false);
                     sessionStorage.setItem("credential", JSON.stringify({ accountType: "PATIENT", accountAddress: accounts[0], profile: profile }));
                     enqueueSnackbar(`Welcome, ${profile.name}`);
                     dispatch({ type: "LOGIN", payload: { accountType: "PATIENT", accountAddress: accounts[0], profile: profile } })
                     navigate("/Dashboard");
-                // }
+                }
             }, 20000)
 
-        // }
+        }
     };
 
     return (

@@ -5,24 +5,31 @@ pragma solidity ^0.8.0;
 import "./diagnostics.sol";
 import "./Ownable.sol";
 
-library HospitalLib {
+// library HospitalLib {
+//     struct Hospital {
+//         string hospname;
+//         string email;
+//         uint128 phone;
+//         string license;
+//     }
+// }
+
+
+contract hospital is diagnostics, Ownable {
+    uint256 public cost = 0.1 ether;
+
     struct Hospital {
         string hospname;
         string email;
         uint128 phone;
         string license;
     }
-}
-
-
-contract hospital is diagnostics, Ownable {
-    uint256 public cost = 0.1 ether;
     
-    using HospitalLib for hospital;
+    // using HospitalLib for hospital;
 
 
     // Maps a user address to a hospital struct
-    mapping(address => HospitalLib.Hospital) public hospitals;
+    mapping(address => Hospital) public hospitals;
     // Maps a user address to a hospital address
     mapping(address => address) public organization;
 
@@ -66,7 +73,7 @@ contract hospital is diagnostics, Ownable {
         string memory _license
     ) external payable {
         require(msg.value >= cost);
-        hospitals[msg.sender] = HospitalLib.Hospital(
+        hospitals[msg.sender] = Hospital(
             _hospname,
             _email,
             uint128(_phone),

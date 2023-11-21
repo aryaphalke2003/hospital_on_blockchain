@@ -137,7 +137,6 @@ contract patient {
     ) external {
         grantAccess(msg.sender);
         patientIndex[msg.sender] = Patient(
-            
             _name,
             _age,
             _gender,
