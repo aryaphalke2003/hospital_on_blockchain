@@ -28,7 +28,7 @@ const Home = () => {
             <section className={classes.two}>
                 <div className={classes.heading}>
                     <h1>Blockchain Hospital Management</h1>
-                    <p className={classes.lightblack}>Team </p>
+                    <p className={classes.lightblack}>IIT ROPAR</p>
                 </div>
 
 
