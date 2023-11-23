@@ -5,17 +5,10 @@ pragma solidity ^0.8.0;
 import "./diagnostics.sol";
 import "./Ownable.sol";
 
-// library HospitalLib {
-//     struct Hospital {
-//         string hospname;
-//         string email;
-//         uint128 phone;
-//         string license;
-//     }
-// }
 
 
 contract hospital is diagnostics, Ownable {
+
     uint256 public cost = 0.1 ether;
 
     struct Hospital {
@@ -66,6 +59,7 @@ contract hospital is diagnostics, Ownable {
         return myDoctors;
     }
 
+
     function registerHospital(
         string memory _hospname,
         string memory _email,
@@ -81,6 +75,7 @@ contract hospital is diagnostics, Ownable {
         );
     }
 
+
     // Allows hospital to remove a doctor
     function removeDoctor(
         address _doctor
@@ -93,12 +88,14 @@ contract hospital is diagnostics, Ownable {
         organization[_doctor] = msg.sender;
     }
 
+
     // Allows hospital to revoke access to a doctor
     function revokeAccessToAll(
         address _doctor
     ) external authorizedHospital(_doctor, msg.sender) {
         delete accessList[_doctor];
     }
+
 
     // Allows owner to withdraw funds from the contract
     function withdraw() external onlyOwner {
@@ -111,8 +108,5 @@ contract hospital is diagnostics, Ownable {
         cost = _fee;
     }
 
-    // Rest of your contract remains unchanged...
-
-    // Fallback function to receive ether
     receive() external payable {}
 }

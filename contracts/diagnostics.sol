@@ -3,7 +3,9 @@ pragma solidity ^0.8.0;
 import "./clinic.sol";
 
 contract diagnostics is clinic {
+    
     // Registers a diagnostic on the blockchain
+
     function registerDiagnostic(
         string memory _Diagname,
         string memory _email,

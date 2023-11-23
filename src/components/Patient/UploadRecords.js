@@ -17,8 +17,8 @@ const UploadRecords = () => {
     const [file, setFile] = useState(null);
     const ipfs = ipfsHttpClient({
         host: "127.0.0.1",
-        port: 8080, // Check the port on which your Kubo IPFS node is running
-        protocol: "http",
+        port: 5001, // Use the correct port for your Kubo IPFS node
+        protocol: "tcp",
     });
     
     const [docType, setDocType] = useState('');
