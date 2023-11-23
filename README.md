@@ -12,6 +12,7 @@ use ganache
 
 Open ganache
 Set url to localhost 8001 in settings 
+add truffle config file
 done
 
 

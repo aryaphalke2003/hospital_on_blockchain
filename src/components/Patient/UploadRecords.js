@@ -7,20 +7,20 @@ import { useSelector } from 'react-redux';
 import { enqueueSnackbar } from 'notistack';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-const projectId = process.env.REACT_APP_PROJECT_ID;
-const projectSecretKey = process.env.REACT_APP_PROJECT_KEY;
-const authorization = "Basic " + btoa(projectId + ":" + projectSecretKey);
+// const projectId = process.env.REACT_APP_PROJECT_ID;
+// const projectSecretKey = process.env.REACT_APP_PROJECT_KEY;
+// const authorization = "Basic " + btoa(projectId + ":" + projectSecretKey);
 
 const UploadRecords = () => {
     const [isLoading, setIsLoading] = useState(false);
     const accountAddress = useSelector(state => state.accountAddress);
     const [file, setFile] = useState(null);
     const ipfs = ipfsHttpClient({
-        url: "https://ipfs.infura.io:5001",
-        headers: {
-            authorization,
-        },
+        host: "127.0.0.1",
+        port: 8080, // Check the port on which your Kubo IPFS node is running
+        protocol: "http",
     });
+    
     const [docType, setDocType] = useState('');
     const [fileErr, setFileErr] = useState(false);
     const recordname = useRef();
