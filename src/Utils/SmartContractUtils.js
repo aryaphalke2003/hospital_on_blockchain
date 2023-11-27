@@ -703,18 +703,19 @@ const revokeAllAccessOfDoctor = async (docAddress, accountAddress) => {
 //         return errObject;
 //     }
 // }
+
 const registerHospital = async (data, accountAddress) => {
+    console.log("regi");
     try {
         const transactionParams = {
             from: accountAddress,
             to: hospitalAddress,
-            data: hospitalContract.methods.registerHospital(
+            data: diagContract.methods.registerHospital(
                 data.name,
                 data.email,
                 data.phone,
                 data.license
             ).encodeABI(),
-            value: "100000000000000"
         }
         const txHash = await window.ethereum.request({
             method: 'eth_sendTransaction',
@@ -722,13 +723,15 @@ const registerHospital = async (data, accountAddress) => {
         });
         return txHash;
     } catch (error) {
-        console.log(error);
         const errObject = {
-            message: "Failed to register hospital, Please check your balance or try again later",
+            message: "Failed to register diagnostic, Please check your balance or try again later",
         }
         return errObject;
     }
 }
+
+
+
 
 // @dev This function is used to register a diagnostic
 // @params data: The data of the diagnostic

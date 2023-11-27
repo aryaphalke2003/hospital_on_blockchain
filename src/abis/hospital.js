@@ -195,19 +195,6 @@ export const hospitalABI = [
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "cost",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "string",
@@ -1042,10 +1029,6 @@ export const hospitalABI = [
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
-  },
-  {
-    "stateMutability": "payable",
-    "type": "receive"
   },
   {
     "inputs": [],

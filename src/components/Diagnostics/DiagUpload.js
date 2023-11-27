@@ -7,18 +7,65 @@ import { enqueueSnackbar } from 'notistack';
 import { useSelector } from 'react-redux';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import axios from 'axios';
 
-const projectId = process.env.REACT_APP_PROJECT_ID;
-const projectSecretKey = process.env.REACT_APP_PROJECT_KEY;
-const authorization = "Basic " + btoa(projectId + ":" + projectSecretKey);
+// const projectId = process.env.REACT_APP_PROJECT_ID;
+// const projectSecretKey = process.env.REACT_APP_PROJECT_KEY;
+// const authorization = "Basic " + btoa(projectId + ":" + projectSecretKey);
+
+
+const JWT = process.env.REACT_APP_JWT_TOKEN;
+
+
+const pinFileToIPFS = async (file, name) => {
+
+    const formData = new FormData();
+    formData.append('file', file)
+    const pinataMetadata = JSON.stringify({
+        name: name,
+    });
+    formData.append('pinataMetadata', pinataMetadata);
+
+    const pinataOptions = JSON.stringify({
+        cidVersion: 0,
+    })
+    formData.append('pinataOptions', pinataOptions);
+
+    try {
+        const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", formData, {
+            maxBodyLength: "Infinity",
+            headers: {
+                'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+                'Authorization': `Bearer ${JWT}`
+            }
+        });
+        console.log(res.data);
+        console.log("success");
+
+        if (res.data && res.data.IpfsHash && res.data.PinSize) {
+            return {
+                cid: res.data.IpfsHash,
+                path: res.data.IpfsHash
+            };
+        } else {
+            throw new Error('Unexpected response format');
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
 const DiagUpload = () => {
     const [file, setFile] = useState(null);
-    const ipfs = ipfsHttpClient({
-        url: "https://ipfs.infura.io:5001",
-        headers: {
-            authorization,
-        },
-    });
+    // const ipfs = ipfsHttpClient({
+    //     url: "https://ipfs.infura.io:5001",
+    //     headers: {
+    //         authorization,
+    //     },
+    // });
     const accountAddress = useSelector(state => state.accountAddress);
     const [isLoading, setIsLoading] = useState(false);
     const [docType, setDocType] = useState('');
@@ -137,8 +184,7 @@ const DiagUpload = () => {
         else {
             setIsLoading(true);
             try {
-                const result = await ipfs.add(file);
-
+                const result = await pinFileToIPFS(file, docName.current.value);
                 const data = {
                     org: orgName.current.value,
                     date: new Date(),

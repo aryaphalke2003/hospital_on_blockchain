@@ -13,14 +13,8 @@ import FormData from 'form-data';
 // const projectSecretKey = process.env.REACT_APP_PROJECT_KEY;
 // const authorization = "Basic " + btoa(projectId + ":" + projectSecretKey);
 
+const JWT = process.env.REACT_APP_JWT_TOKEN;
 
-
-
-
-// const JWT = process.env.JWT_TOKEN;
-const JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyNTMyZDc0YS1jMGM4LTQxZGQtYjlmMC1hYmYyN2QyZmIxZDUiLCJlbWFpbCI6ImFyeWFwaGFsa2UyMDAzQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfSx7ImlkIjoiTllDMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiJjMDExMTA1MDA4YTRmMjVjYWM4ZSIsInNjb3BlZEtleVNlY3JldCI6IjgxMjhhNTA4MWYwY2FjZjQ2MmEzMDEwOTNkMzE4MWNmNzIwOTM1ZDU0MjMwMmI1YzE0YjRiZjNjZDMzYzgwOTkiLCJpYXQiOjE3MDEwNDAyMDZ9.ZnV2x5B6WRD64h4dAFKlyoVBdx9mZtgfC6Nmt6D8jyU';
-console.log("jwt");
-// console.log(JWT);
 
 const pinFileToIPFS = async (file, name) => {
 
@@ -50,7 +44,7 @@ const pinFileToIPFS = async (file, name) => {
         if (res.data && res.data.IpfsHash && res.data.PinSize) {
             return {
                 cid: res.data.IpfsHash,
-                path: res.data.IpfsPath
+                path: res.data.IpfsHash
             };
         } else {
             throw new Error('Unexpected response format');
@@ -169,7 +163,7 @@ const UploadRecords = () => {
                 const result = await pinFileToIPFS(file, docName.current.value);
                 const { cid, path } = result;
                 console.log(`CID: ${cid}`);
-                // console.log(`Path: ${path}`);
+                console.log(`Path: ${path}`);
 
                 const data = {
                     org: orgName.current.value,
