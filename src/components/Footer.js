@@ -22,7 +22,7 @@ const Footer = () => {
                             About Us
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            We are FlipHealth, dedicated to providing the best experience in the field of Electronic Health Record Management.
+                            We are W3Health, dedicated to providing the best experience in the field of Electronic Health Record Management.
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sm={4}>
@@ -33,7 +33,7 @@ const Footer = () => {
                             PDPM IIITDM Jabalpur, Madhya Pradesh
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            Email: XXXXXX@fliphealth.com
+                            Email: XXXXXX@W3Health.com
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                             Phone: +91 8430X XXXXX

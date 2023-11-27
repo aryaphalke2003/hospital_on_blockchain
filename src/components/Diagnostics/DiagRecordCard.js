@@ -36,7 +36,7 @@ const DiagRecordCard = (props) => {
                     </Typography>
                 </CardContent>
                 <CardActions sx={{ display: "flex", justifyContent: "center" }}>
-                    <a href={`https://skywalker.infura-ipfs.io/ipfs/${data.documentPath}`} target='_blank' rel='noreferrer'><IconButton><VisibilityIcon /></IconButton></a>
+                    <a href={`https://orange-legal-jay-931.mypinata.cloud/ipfs/${data.documentPath}`} target='_blank' rel='noreferrer'><IconButton><VisibilityIcon /></IconButton></a>
                 </CardActions>
             </Card>
         </>

@@ -158,6 +158,7 @@ const HospitalLogin = () => {
             setLicenseError({
                 error: false,
                 message: ""
+                
             });
         }
         if (flag === 1) {

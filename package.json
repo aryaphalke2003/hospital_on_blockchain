@@ -1,5 +1,5 @@
 {
-  "name": "fliphealth",
+  "name": "W3Health",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -12,8 +12,14 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "aws-sdk": "^2.1502.0",
+    "axios": "^1.6.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
+    "form-data": "^4.0.0",
+    "ipfs": "^0.66.1",
     "ipfs-http-client": "^60.0.1",
+    "kubo-rpc-client": "^3.0.1",
     "mui-file-input": "^3.0.0",
     "mui-one-time-password-input": "^2.0.0",
     "node": "^21.1.0",

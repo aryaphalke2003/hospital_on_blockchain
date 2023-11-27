@@ -15,6 +15,13 @@ import Contact from './assets/Contact';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { enqueueSnackbar } from 'notistack';
+const cors=require("cors");
+const corsOptions ={
+   origin:'*', 
+   credentials:true,            //access-control-allow-credentials:true
+   optionSuccessStatus:200,
+}
+
 
 function App() {
   const dispatch = useDispatch();

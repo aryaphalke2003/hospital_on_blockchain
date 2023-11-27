@@ -15,9 +15,9 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useSelector } from 'react-redux';
 import { enqueueSnackbar } from 'notistack';
 import ConfirmDialog from '../ConfirmDialog';
-const projectId = process.env.REACT_APP_PROJECT_ID;
-const projectSecretKey = process.env.REACT_APP_PROJECT_KEY;
-const authorization = "Basic " + btoa(projectId + ":" + projectSecretKey);
+import axios from 'axios';
+// const JWT = process.env.JWT;
+const JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyNTMyZDc0YS1jMGM4LTQxZGQtYjlmMC1hYmYyN2QyZmIxZDUiLCJlbWFpbCI6ImFyeWFwaGFsa2UyMDAzQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfSx7ImlkIjoiTllDMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiJjMDExMTA1MDA4YTRmMjVjYWM4ZSIsInNjb3BlZEtleVNlY3JldCI6IjgxMjhhNTA4MWYwY2FjZjQ2MmEzMDEwOTNkMzE4MWNmNzIwOTM1ZDU0MjMwMmI1YzE0YjRiZjNjZDMzYzgwOTkiLCJpYXQiOjE3MDEwNDAyMDZ9.ZnV2x5B6WRD64h4dAFKlyoVBdx9mZtgfC6Nmt6D8jyU';
 
 const RecordCard = (props) => {
 
@@ -25,15 +25,24 @@ const RecordCard = (props) => {
     const accountAddress = useSelector(state => state.accountAddress);
     const { refresh, setRefresh, data } = props;
     const [confirm, setConfirm] = useState(false);
-    const ipfs = ipfsHttpClient({
-        url: "https://ipfs.infura.io:5001",
-        headers: {
-            authorization,
-        },
-    });
+    
+    const deletePinFromIPFS = async (hashToUnpin) => {
+        try {
+          const res = await axios.delete(`https://api.pinata.cloud/pinning/unpin/${hashToUnpin}`, {
+            headers: {
+              Authorization: JWT
+            }
+          })
+          console.log(res.status)
+        } catch (error) {
+          console.log(error)
+        }
+      }
 
-    const unpinFromInfura = async (hash) => {
-        await ipfs.pin.rm(hash);
+    const unpinFromPinata = async (hash) => {
+
+        deletePinFromIPFS(hash);
+       
     }
 
     const removeDocFromBlock = async (hash) => {
@@ -43,7 +52,7 @@ const RecordCard = (props) => {
     const handleRemove = async () => {
         setIsLoading(true);
         try {
-            await unpinFromInfura(data.documentPath);
+            await unpinFromPinata(data.documentPath);
             await removeDocFromBlock(data.documentCid);
             enqueueSnackbar("Record DELETED successfully!", { variant: "success" });
         }
@@ -85,7 +94,7 @@ const RecordCard = (props) => {
                     </Typography>
                 </CardContent>
                 <CardActions sx={{ display: "flex", justifyContent: "center" }}>
-                    <a href={`https://skywalker.infura-ipfs.io/ipfs/${data.documentPath}`} target='_blank' rel='noreferrer'><IconButton><VisibilityIcon /></IconButton></a>
+                    <a href={`https://orange-legal-jay-931.mypinata.cloud/ipfs/${data.documentPath}`} target='_blank' rel='noreferrer'><IconButton><VisibilityIcon /></IconButton></a>
                     <IconButton onClick={() => {
                         setConfirm(true);
                     }}><DeleteIcon /></IconButton>

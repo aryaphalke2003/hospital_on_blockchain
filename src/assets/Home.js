@@ -28,7 +28,7 @@ const Home = () => {
             <section className={classes.two}>
                 <div className={classes.heading}>
                     <h1>Blockchain Hospital Management</h1>
-                    <p className={classes.lightblack}>IIT ROPAR</p>
+                    <p className={classes.lightblack}>Team 7</p>
                 </div>
 
 
@@ -46,7 +46,7 @@ const Home = () => {
                         <div className={classes.info__text}>
                             <h1>Security</h1>
 
-                            {/* <p>dApps like FlipHealth are more secure than centralized applications because they are built on a blockchain network.</p> */}
+                            {/* <p>dApps like W3Health are more secure than centralized applications because they are built on a blockchain network.</p> */}
 
                         </div>
                     </div>

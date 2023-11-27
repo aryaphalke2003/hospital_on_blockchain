@@ -13,7 +13,7 @@ This website is a blockchain based Hopital Mangement system, which means it guar
 
 ### Installation
 - Clone the repository: git clone https://github.com/aryaphalke2003/hospital_on_blockchain.git  
-- Navigate to project directory: cd fliphealth  
+- Navigate to project directory: cd W3Health  
 - Install dependencies: npm install  
 
 ### Configuration

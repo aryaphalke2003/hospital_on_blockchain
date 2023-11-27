@@ -61,13 +61,13 @@ function App() {
               <img
                 className="image"
                 alt={`Uploaded #${index + 1}`}
-                src={"https://skywalker.infura-ipfs.io/ipfs/" + image.path}
+                src={"https://orange-legal-jay-931.mypinata.cloud/ipfs/" + image.path}
                 style={{ maxWidth: "400px", margin: "15px" }}
                 key={image.cid.toString() + index}
               />
               <h4>Link to IPFS:</h4>
-              <a href={"https://skywalker.infura-ipfs.io/ipfs/" + image.path}>
-                <h3>{"https://skywalker.infura-ipfs.io/ipfs/" + image.path}</h3>
+              <a href={"https://orange-legal-jay-931.mypinata.cloud/ipfs/" + image.path}>
+                <h3>{"https://orange-legal-jay-931.mypinata.cloud/ipfs/" + image.path}</h3>
               </a>
             </>
           ))}

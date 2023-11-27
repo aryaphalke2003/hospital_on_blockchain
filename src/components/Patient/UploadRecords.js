@@ -1,26 +1,71 @@
 import React, { useRef, useState } from 'react';
 import { MuiFileInput } from 'mui-file-input';
 import { Box, Button, Container, CssBaseline, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import { create as ipfsHttpClient } from "ipfs-http-client";
 import { uploadRecordByUser } from '../../Utils/SmartContractUtils';
 import { useSelector } from 'react-redux';
 import { enqueueSnackbar } from 'notistack';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import axios from 'axios';
+import FormData from 'form-data';
+
 // const projectId = process.env.REACT_APP_PROJECT_ID;
 // const projectSecretKey = process.env.REACT_APP_PROJECT_KEY;
 // const authorization = "Basic " + btoa(projectId + ":" + projectSecretKey);
+
+
+
+
+
+// const JWT = process.env.JWT_TOKEN;
+const JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyNTMyZDc0YS1jMGM4LTQxZGQtYjlmMC1hYmYyN2QyZmIxZDUiLCJlbWFpbCI6ImFyeWFwaGFsa2UyMDAzQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfSx7ImlkIjoiTllDMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiJjMDExMTA1MDA4YTRmMjVjYWM4ZSIsInNjb3BlZEtleVNlY3JldCI6IjgxMjhhNTA4MWYwY2FjZjQ2MmEzMDEwOTNkMzE4MWNmNzIwOTM1ZDU0MjMwMmI1YzE0YjRiZjNjZDMzYzgwOTkiLCJpYXQiOjE3MDEwNDAyMDZ9.ZnV2x5B6WRD64h4dAFKlyoVBdx9mZtgfC6Nmt6D8jyU';
+console.log("jwt");
+// console.log(JWT);
+
+const pinFileToIPFS = async (file, name) => {
+
+    const formData = new FormData();
+    formData.append('file', file)
+    const pinataMetadata = JSON.stringify({
+        name: name,
+    });
+    formData.append('pinataMetadata', pinataMetadata);
+
+    const pinataOptions = JSON.stringify({
+        cidVersion: 0,
+    })
+    formData.append('pinataOptions', pinataOptions);
+
+    try {
+        const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", formData, {
+            maxBodyLength: "Infinity",
+            headers: {
+                'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+                'Authorization': `Bearer ${JWT}`
+            }
+        });
+        console.log(res.data);
+        console.log("success");
+
+        if (res.data && res.data.IpfsHash && res.data.PinSize) {
+            return {
+                cid: res.data.IpfsHash,
+                path: res.data.IpfsPath
+            };
+        } else {
+            throw new Error('Unexpected response format');
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 const UploadRecords = () => {
     const [isLoading, setIsLoading] = useState(false);
     const accountAddress = useSelector(state => state.accountAddress);
     const [file, setFile] = useState(null);
-    const ipfs = ipfsHttpClient({
-        host: "127.0.0.1",
-        port: 5001, // Use the correct port for your Kubo IPFS node
-        protocol: "tcp",
-    });
-    
+
     const [docType, setDocType] = useState('');
     const [fileErr, setFileErr] = useState(false);
     const recordname = useRef();
@@ -53,6 +98,7 @@ const UploadRecords = () => {
         setDocType('');
         setFile(null);
     }
+    console.log("enter");
     const onSubmitHandler = async (event) => {
         event.preventDefault();
         let flag = 0;
@@ -117,14 +163,21 @@ const UploadRecords = () => {
         else {
             setIsLoading(true);
             try {
-                const result = await ipfs.add(file);
+                console.log("pinata");
+                
+                // const result = await ipfs.add(file);
+                const result = await pinFileToIPFS(file, docName.current.value);
+                const { cid, path } = result;
+                console.log(`CID: ${cid}`);
+                // console.log(`Path: ${path}`);
+
                 const data = {
                     org: orgName.current.value,
                     date: new Date(),
                     doctorname: docName.current.value,
                     documentName: recordname.current.value,
-                    path: result.path,
-                    cid: result.cid,
+                    path: cid,
+                    cid: cid,
                     docType: docType
                 }
                 const res = await uploadRecordByUser(
@@ -171,7 +224,7 @@ const UploadRecords = () => {
                 inputRef={recordname}
                 sx={{ width: "40vw", maxWidth: "405px", minWidth: "250px" }}
                 error={recordNameError.error}
-                helperText={recordNameError.message}
+            helperText={recordNameError.message}
             /><TextField
                 autoComplete='off'
                 margin="normal"
@@ -183,7 +236,7 @@ const UploadRecords = () => {
                 inputRef={docName}
                 sx={{ width: "40vw", maxWidth: "405px", minWidth: "250px", marginTop: "0" }}
                 error={docNameError.error}
-                helperText={docNameError.message}
+            helperText={docNameError.message}
             /><TextField
                 autoComplete='off'
                 margin="normal"
@@ -195,7 +248,7 @@ const UploadRecords = () => {
                 inputRef={orgName}
                 sx={{ width: "40vw", maxWidth: "405px", minWidth: "250px", marginTop: "0" }}
                 error={orgNameError.error}
-                helperText={orgNameError.message}
+            helperText={orgNameError.message}
             /><FormControl sx={{ width: "40vw", maxWidth: "405px", minWidth: "250px" }}><InputLabel id="demo-simple-select-label">Record Type *</InputLabel><Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -203,7 +256,7 @@ const UploadRecords = () => {
                 label="Record Type *"
                 onChange={handleChange}
                 error={docTypeError.error}
-                helperText={docTypeError.message}
+            helperText={docTypeError.message}
             >
                 <MenuItem value={"Certificate"}>Certificate</MenuItem>
                 <MenuItem value={"Report"}>Report</MenuItem>
