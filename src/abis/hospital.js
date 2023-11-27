@@ -1083,9 +1083,9 @@ export const hospitalABI = [
         "type": "string"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint128",
         "name": "_phone",
-        "type": "uint256"
+        "type": "uint128"
       },
       {
         "internalType": "string",
@@ -1095,7 +1095,7 @@ export const hospitalABI = [
     ],
     "name": "registerHospital",
     "outputs": [],
-    "stateMutability": "payable",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -1133,26 +1133,6 @@ export const hospitalABI = [
       }
     ],
     "name": "revokeAccessToAll",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "withdraw",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_fee",
-        "type": "uint256"
-      }
-    ],
-    "name": "setCost",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

@@ -7,30 +7,7 @@ const hospitalContract = new web3.eth.Contract(hospitalABI, hospitalAddress);
 const diagContract = new web3.eth.Contract(hospitalABI, hospitalAddress);
 const clinicContract = new web3.eth.Contract(hospitalABI, hospitalAddress);
 
-// Patient Functions
 
-// @params accountAddress: The address of the user
-// @params data: The data of the user
-// @dev This function is used to register the patient on the blockchain
-// The data either comes from the user or from government API after verifying the aadhar
-// label : transaction
-// const register_patient = async (data, accountAddress) => {
-//     try {
-//         const result = await doctorContract.methods.register_patient(
-//             data.name,
-//             data.age,
-//             data.gender,
-//             data.phone,
-//             data.email
-//         ).send({ from: accountAddress, gas: 3000000 })
-//         return result;
-//     } catch (error) {
-//         const errObject = {
-//             message: "Failed to register, Please check your balance or try another account"
-//         }
-//         return errObject;
-//     }
-// }
 const register_patient = async (data, accountAddress) => {
     try {
         const transactionParams = {
@@ -57,9 +34,6 @@ const register_patient = async (data, accountAddress) => {
     }
 }
 
-// @dev This function is used to get the profiles of all granted diagnostics of a patient
-// @params accountAddress: The address of the user
-// label : view
 const getDiagnosticForPatient = async (accountAddress) => {
     try {
         const res = await diagContract.methods.getDiagnosticsForUser().call({
@@ -75,21 +49,6 @@ const getDiagnosticForPatient = async (accountAddress) => {
     }
 }
 
-// label : transaction
-// const grantAccessToDiagnostic = async (address, accountAddress) => {
-//     try {
-//         const res = await diagContract.methods.grantAccessToDiagnostic(address).send({
-//             from: accountAddress,
-//             gas: 3000000
-//         });
-//         return res
-//     } catch (error) {
-//         const errObject = {
-//             message: "Failed to grant access, Please check your balance or try again later",
-//         }
-//         return errObject;
-//     }
-// }
 const grantAccessToDiagnostic = async (address, accountAddress) => {
     try {
         const transactionParams = {
@@ -110,21 +69,6 @@ const grantAccessToDiagnostic = async (address, accountAddress) => {
     }
 }
 
-// label : transaction
-// const revokeAccessOfDiagnostic = async (address, accountAddress) => {
-//     try {
-//         const res = await diagContract.methods.revokeAccessDiagnostic(address).send({
-//             from: accountAddress,
-//             gas: 3000000
-//         });
-//         return res
-//     } catch (error) {
-//         const errObject = {
-//             message: "Failed to revoke access, Please check your balance and try again later",
-//         }
-//         return errObject;
-//     }
-// }
 const revokeAccessOfDiagnostic = async (address, accountAddress) => {
     try {
         const transactionParams = {
@@ -145,10 +89,6 @@ const revokeAccessOfDiagnostic = async (address, accountAddress) => {
     }
 }
 
-// @dev This function is used by a doctor/patient to get all the records of a patient
-// @params patientAddress: The address of the patient
-// @params accountAddress: The address of the user
-// label : view
 const getRecordsOfUser = async (patientAddress, accountAddress) => {
     try {
         const res = await doctorContract.methods.getHealthRecords(patientAddress).call({
@@ -164,24 +104,6 @@ const getRecordsOfUser = async (patientAddress, accountAddress) => {
     }
 }
 
-// @dev This function is used to delete a document from the blockchain storage
-// @params accountAddress: The address of the user
-// @params cid: The cid of the document to be deleted
-// label : transaction
-// const deleteDocument = async (accountAddress, cid) => {
-//     try {
-//         const result = await doctorContract.methods.deleteRecord(cid).send({
-//             from: accountAddress,
-//             gas: 3000000
-//         })
-//         return result;
-//     } catch (error) {
-//         const errObject = {
-//             message: "Failed to delete your document, Please check your balance or try again later",
-//         }
-//         return errObject;
-//     }
-// }
 const deleteDocument = async (accountAddress, cid) => {
     try {
         const transactionParams = {
@@ -202,9 +124,6 @@ const deleteDocument = async (accountAddress, cid) => {
     }
 }
 
-// @dev This function is used for a patient to get all his doctors
-// @params accountAddress: The address of the user
-// label : view
 const getAllDoctorsForAPatient = async (accountAddress) => {
     try {
         const res = await doctorContract.methods.getDoctorsForUser().call({
@@ -220,9 +139,6 @@ const getAllDoctorsForAPatient = async (accountAddress) => {
     }
 }
 
-// @dev This function is used for a patient to get his own profile
-// @params accountAddress: The address of the user
-// label : view
 const getPatientOwnProfile = async (accountAddress) => {
     try {
         const result = await doctorContract.methods.getPatientOwnProfile().call({
@@ -239,24 +155,6 @@ const getPatientOwnProfile = async (accountAddress) => {
     }
 }
 
-// @dev This function is used by a patient to grant access to view their documents to a doctor
-// @params docAddress: The address of the doctor
-// @params accountAddress: The address of the user
-// label : transaction
-// const grantAccessToDoctor = async (docAddress, accountAddress) => {
-//     try {
-//         const res = await doctorContract.methods.grantAccess(docAddress).send({
-//             from: accountAddress,
-//             gas: 3000000
-//         });
-//         return res;
-//     } catch (error) {
-//         const errObject = {
-//             message: "Failed to grant access, Please check your balance or try another account",
-//         }
-//         return errObject;
-//     }
-// }
 const grantAccessToDoctor = async (docAddress, accountAddress) => {
     try {
         const transactionParams = {
@@ -277,24 +175,6 @@ const grantAccessToDoctor = async (docAddress, accountAddress) => {
     }
 }
 
-// @dev This function is used by a user to revoke a doctor's access to his documents
-// @params docAddress: The address of the doctor
-// @params accountAddress: The address of the user
-// label : transaction
-// const revokeDoctorsAccess = async (docAddress, accountAddress) => {
-//     try {
-//         const res = await doctorContract.methods.revokeAccess(docAddress).send({
-//             from: accountAddress,
-//             gas: 3000000
-//         })
-//         return res;
-//     } catch (error) {
-//         const errObject = {
-//             message: "Failed to revoke access, Please check your balance or try again later",
-//         }
-//         return errObject;
-//     }
-// }
 const revokeDoctorsAccess = async (docAddress, accountAddress) => {
     try {
         const transactionParams = {
@@ -315,25 +195,6 @@ const revokeDoctorsAccess = async (docAddress, accountAddress) => {
     }
 }
 
-// @dev This function is used by a user to upload his record metaData to the blockchain
-// @params data: The metaData of the document
-// @params accountAddress: The address of the user
-// label : transaction
-// const uploadRecordByUser = async (data, accountAddress) => {
-//     try {
-//         const res = await doctorContract.methods.addRecordByUser(
-//             data.org, String(data.date), String(data.doctorname), String(data.documentName), String(data.path), String(data.cid), data.docType).send({
-//                 from: accountAddress,
-//                 gas: 3000000
-//             });
-//         return res;
-//     } catch (error) {
-//         const errObject = {
-//             message: "Failed to upload your document, Please check your balance or try again later",
-//         }
-//         return errObject;
-//     }
-// }
 const uploadRecordByUser = async (data, accountAddress) => {
     try {
         const transactionParams = {
@@ -356,9 +217,7 @@ const uploadRecordByUser = async (data, accountAddress) => {
 }
 
 
-// Doctor Functions
 
-// label : view
 const getOrgOfDoctor = async (accountAddress) => {
     try {
         const orgAddress = await hospitalContract.methods.organization(accountAddress).call({
@@ -397,9 +256,6 @@ const getOrgOfDoctor = async (accountAddress) => {
     }
 }
 
-// @dev This function is used for a doctor to get all his patients
-// @params accountAddress: The address of the user
-// label : view
 const getPatientsForADoctor = async (accountAddress) => {
     try {
         const result = await doctorContract.methods.getPatients().call({
@@ -415,32 +271,6 @@ const getPatientsForADoctor = async (accountAddress) => {
     }
 }
 
-// @params accountAddress: The address of the user
-// @params data: The data of the user
-// @dev This function is used to register the doctor on the blockchain
-// The data either comes from the user or from government API after verifying the aadhar
-// label : transaction
-// const registerDoctor = async (data, accountAddress) => {
-//     try {
-//         const result = await doctorContract.methods.registerDoctor(
-//             data.name,
-//             data.age,
-//             data.grnumber,
-//             data.phone,
-//             data.email,
-//             data.specialisation,
-//         ).send({
-//             from: accountAddress,
-//             gas: 3000000
-//         })
-//         return result;
-//     } catch (err) {
-//         const errObject = {
-//             message: "Failed to register, Please check your balance or try another account"
-//         }
-//         return errObject;
-//     }
-// }
 const registerDoctor = async (data, accountAddress) => {
     try {
         const transactionParams = {
@@ -470,9 +300,6 @@ const registerDoctor = async (data, accountAddress) => {
 }
 
 
-// @dev This function is used for a doctor to get his own profile
-// @params accountAddress: The address of the user
-// label : view
 const getDoctorOwnProfile = async (accountAddress) => {
     try {
         const result = await doctorContract.methods.getDocOwnProfile().call({
@@ -489,12 +316,7 @@ const getDoctorOwnProfile = async (accountAddress) => {
     }
 }
 
-// Hospital Functions
 
-// @dev This function is used to search a doctor by address
-// @params enteredAddress: The address of the doctor
-// @params accountAddress: The address of the user
-// label : view
 const searchDoctorByAddress = async (enteredAddress, accountAddress) => {
     try {
         const res = await doctorContract.methods.DocProfileReturn(enteredAddress).call({
@@ -510,9 +332,6 @@ const searchDoctorByAddress = async (enteredAddress, accountAddress) => {
     }
 }
 
-// @dev This function is used to search a doctor by name
-// @params accountAddress: The address of the user
-// label : view
 const searchDoctorByName = async (accountAddress) => {
     try {
         const res = await doctorContract.methods.getAllDoctors().call({
@@ -528,24 +347,6 @@ const searchDoctorByName = async (accountAddress) => {
     }
 }
 
-// @dev This function is used by a hospital to remove a doctor from the hospital
-// @params docAddress: The address of the doctor
-// @params accountAddress: The address of the user
-// label : transaction
-// const removeDoctorFromHospital = async (docAddress, accountAddress) => {
-//     try {
-//         const res = await hospitalContract.methods.removeDoctor(docAddress).send({
-//             from: accountAddress,
-//             gas: 3000000
-//         });
-//         return res;
-//     } catch (error) {
-//         const errObject = {
-//             message: "Failed to remove doctor, Please check your balance or try again later",
-//         }
-//         return errObject;
-//     }
-// }
 const removeDoctorFromHospital = async (docAddress, accountAddress) => {
     try {
         const transactionParams = {
@@ -566,24 +367,6 @@ const removeDoctorFromHospital = async (docAddress, accountAddress) => {
     }
 }
 
-// @dev This function is used by a hospital to add a doctor to the hospital
-// @params docAddress: The address of the doctor
-// @params accountAddress: The address of the user
-// label : transaction
-// const addDoctorToHospital = async (docAddress, accountAddress) => {
-//     try {
-//         const res = await hospitalContract.methods.addDoctorTOHospital(docAddress).send({
-//             from: accountAddress,
-//             gas: 3000000
-//         });
-//         return res;
-//     } catch (error) {
-//         const errObject = {
-//             message: "Failed to add doctor, Please check your balance or try again later",
-//         }
-//         return errObject;
-//     }
-// }
 const addDoctorToHospital = async (docAddress, accountAddress) => {
     try {
         const transactionParams = {
@@ -605,9 +388,6 @@ const addDoctorToHospital = async (docAddress, accountAddress) => {
     }
 }
 
-// @dev This function is used by a hospital to get all the doctors of the hospital
-// @params accountAddress: The address of the user
-// label : view
 const getDoctorsOfHospital = async (accountAddress) => {
     try {
         const res = await hospitalContract.methods.getAllDoctorsForHospital().call({
@@ -623,9 +403,6 @@ const getDoctorsOfHospital = async (accountAddress) => {
     }
 }
 
-// @dev This function is used by users to get profile of a hospital
-// @params accountAddress: The address of the user
-// label : view
 const getHospitalProfile = async (accountAddress) => {
     try {
         const res = await hospitalContract.methods.hospitals(accountAddress).call({
@@ -641,24 +418,6 @@ const getHospitalProfile = async (accountAddress) => {
     }
 }
 
-// @dev This function is used by a hospital to revoke access of a doctor to documents of all the patients
-// @params docAddress: The address of the doctor
-// @params accountAddress: The address of the user
-// label : transaction
-// const revokeAllAccessOfDoctor = async (docAddress, accountAddress) => {
-//     try {
-//         const res = await hospitalContract.methods.revokeAccessToAll(docAddress).send({
-//             from: accountAddress,
-//             gas: 3000000
-//         });
-//         return res;
-//     } catch (error) {
-//         const errObject = {
-//             message: "Failed revoke access, Please check your balance or try again later",
-//         }
-//         return errObject;
-//     }
-// }
 const revokeAllAccessOfDoctor = async (docAddress, accountAddress) => {
     try {
         const transactionParams = {
@@ -679,30 +438,6 @@ const revokeAllAccessOfDoctor = async (docAddress, accountAddress) => {
     }
 }
 
-// @dev This function is used to register a hospital
-// @params data: The data of the hospital
-// @params accountAddress: The address of the user
-// label : transaction
-// const registerHospital = async (data, accountAddress) => {
-//     try {
-//         const res = await hospitalContract.methods.registerHospital(
-//             data.name,
-//             data.email,
-//             data.phone,
-//             data.license
-//         ).send({
-//             from: accountAddress,
-//             gas: 3000000,
-//             value: web3.utils.toWei('0.1', 'ether')
-//         });
-//         return res;
-//     } catch (error) {
-//         const errObject = {
-//             message: "Failed to register hospital, Please check your balance or try again later",
-//         }
-//         return errObject;
-//     }
-// }
 
 const registerHospital = async (data, accountAddress) => {
     console.log("regi");
@@ -710,7 +445,7 @@ const registerHospital = async (data, accountAddress) => {
         const transactionParams = {
             from: accountAddress,
             to: hospitalAddress,
-            data: diagContract.methods.registerHospital(
+            data: hospitalContract.methods.registerHospital(
                 data.name,
                 data.email,
                 data.phone,
@@ -733,29 +468,6 @@ const registerHospital = async (data, accountAddress) => {
 
 
 
-// @dev This function is used to register a diagnostic
-// @params data: The data of the diagnostic
-// @params accountAddress: The address of the user
-// label : transaction
-// const registerDiagnostic = async (data, accountAddress) => {
-//     try {
-//         const res = await diagContract.methods.registerDiagnostic(
-//             data.name,
-//             data.email,
-//             data.phone,
-//             data.license
-//         ).send({
-//             from: accountAddress,
-//             gas: 3000000
-//         });
-//         return res;
-//     } catch (error) {
-//         const errObject = {
-//             message: "Failed to register diagnostic, Please check your balance or try again later",
-//         }
-//         return errObject;
-//     }
-// }
 const registerDiagnostic = async (data, accountAddress) => {
     try {
         const transactionParams = {
@@ -781,7 +493,6 @@ const registerDiagnostic = async (data, accountAddress) => {
     }
 }
 
-// label : view
 const getHealthRecordsOfPatient = async (patAddress, accountAddress) => {
     try {
         const res = await diagContract.methods.getHealthRecordsDiagnostic(patAddress).call({
@@ -797,7 +508,6 @@ const getHealthRecordsOfPatient = async (patAddress, accountAddress) => {
     }
 }
 
-// label : view
 const getAllDiagnostics = async (accountAddress) => {
     try {
         const res = await diagContract.methods.getAllDiagnostics().call({
@@ -814,7 +524,6 @@ const getAllDiagnostics = async (accountAddress) => {
     }
 }
 
-// label : view
 const getDiagProfile = async (address, accountAddress) => {
     try {
         const res = await diagContract.methods.DiagnosticIndex(address).call({
@@ -831,7 +540,6 @@ const getDiagProfile = async (address, accountAddress) => {
     }
 }
 
-// label : view
 const getPatientsOfDiagnostic = async (accountAddress) => {
     try {
         const res = await diagContract.methods.getPatientsForDiagnostic().call({
@@ -847,23 +555,6 @@ const getPatientsOfDiagnostic = async (accountAddress) => {
     }
 }
 
-// label : transaction
-// const uploadRecordsByDiagnostic = async (data, accountAddress, patientAddress) => {
-//     try {
-//         const res = await diagContract.methods.uploadRecordsDiagnostic(
-//             patientAddress,
-//             data.org, String(data.date), String(data.documentName), String(data.doctorname), String(data.path), String(data.cid), String(data.docType)).send({
-//                 from: accountAddress,
-//                 gas: 3000000
-//             });
-//         return res
-//     } catch (error) {
-//         const errObject = {
-//             message: "Failed to upload records, Please check your balance or try again later",
-//         }
-//         return errObject;
-//     }
-// }
 const uploadRecordsByDiagnostic = async (data, accountAddress, patientAddress) => {
     try {
         const transactionParams = {
@@ -886,28 +577,7 @@ const uploadRecordsByDiagnostic = async (data, accountAddress, patientAddress) =
     }
 }
 
-// Clinic Functions
 
-// label : transaction
-// const registerClinic = async (data, accountAddress) => {
-//     try {
-//         const res = await clinicContract.methods.registerClinic(
-//             data.name,
-//             data.phone,
-//             data.email,
-//             data.location
-//         ).send({
-//             from: accountAddress,
-//             gas: 3000000
-//         });
-//         return res
-//     } catch (error) {
-//         const errObject = {
-//             message: "Failed to register clinic, Please check your balance or try again later",
-//         }
-//         return errObject;
-//     }
-// }
 const registerClinic = async (data, accountAddress) => {
     try {
         const transactionParams = {
@@ -933,21 +603,6 @@ const registerClinic = async (data, accountAddress) => {
     }
 }
 
-// label : transaction
-// const enrollInClinicForDoctor = async (cliAddress, accountAddress) => {
-//     try {
-//         const res = await clinicContract.methods.enrollInClinic(cliAddress).send({
-//             from: accountAddress,
-//             gas: 3000000
-//         });
-//         return res
-//     } catch (error) {
-//         const errObject = {
-//             message: "Failed to enroll in clinic, Please check your balance or try again later",
-//         }
-//         return errObject;
-//     }
-// }
 const enrollInClinicForDoctor = async (cliAddress, accountAddress) => {
     try {
         const transactionParams = {
@@ -968,7 +623,6 @@ const enrollInClinicForDoctor = async (cliAddress, accountAddress) => {
     }
 }
 
-// label : view
 const getDoctorsOfClinic = async (accountAddress) => {
     try {
         const res = await clinicContract.methods.getAllDoctorsForClinic().call({
@@ -984,7 +638,6 @@ const getDoctorsOfClinic = async (accountAddress) => {
     }
 }
 
-// label : view
 const getClinicProfile = async (cliAddress, accountAddress) => {
     try {
         const res = await clinicContract.methods.ClinicIndex(cliAddress).call({
@@ -1000,21 +653,6 @@ const getClinicProfile = async (cliAddress, accountAddress) => {
     }
 }
 
-// label : transaction
-// const exitFromClinic = async (accountAddress) => {
-//     try {
-//         const res = await clinicContract.methods.exitFromClinic().send({
-//             from: accountAddress,
-//             gas: 3000000
-//         });
-//         return res
-//     } catch (error) {
-//         const errObject = {
-//             message: "Failed to exit from clinic, Please check your balance or try again later",
-//         }
-//         return errObject;
-//     }
-// }
 const exitFromClinic = async (accountAddress) => {
     try {
         const transactionParams = {

@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.0;
@@ -7,7 +6,7 @@ import "./diagnostics.sol";
 import "./Ownable.sol";
 
 contract hospital is diagnostics, Ownable {
-    uint cost = 0.1 ether;
+    
     struct Hospital {
         string hospname;
         string email;
@@ -27,32 +26,38 @@ contract hospital is diagnostics, Ownable {
     }
 
     // Returns all doctors enrolled in the hospital
-    function getAllDoctorsForHospital()
-        external
-        view
-        returns (DocProfile[] memory)
-    {
-        DocProfile[] memory myDoctors = new DocProfile[](50);
-        for (uint i = 0; i < doctors.length; i++) {
-            if (organization[doctors[i]] == msg.sender) {
-                myDoctors[i] = DocProfileReturn(doctors[i]);
-            }
+    function getAllDoctorsForHospital() external view returns (DocProfile[] memory) {
+    uint count = 0;
+    for (uint i = 0; i < doctors.length; i++) {
+        if (organization[doctors[i]] == msg.sender) {
+            count++;
         }
-        return myDoctors;
     }
+
+    DocProfile[] memory myDoctors = new DocProfile[](count);
+    count = 0;
+    for (uint i = 0; i < doctors.length; i++) {
+        if (organization[doctors[i]] == msg.sender) {
+            myDoctors[count] = DocProfileReturn(doctors[i]);
+            count++;
+        }
+    }
+    return myDoctors;
+}
+
 
     // Registers a hospital on the blockchain
     function registerHospital(
         string memory _hospname,
         string memory _email,
-        uint _phone,
+        uint128 _phone,
         string memory _license
-    ) external payable {
-        require(msg.value >= cost);
+    ) external {
+        
         hospitals[msg.sender] = Hospital(
             _hospname,
             _email,
-            uint128(_phone),
+            _phone,
             _license
         );
     }
@@ -76,14 +81,4 @@ contract hospital is diagnostics, Ownable {
         delete accessList[_doctor];
     }
 
-    // Allows owner to withdraw funds from the contract
-    function withdraw() external onlyOwner {
-        address payable _owner = payable(owner());
-        _owner.transfer(address(this).balance);
-    }
-
-    // Allows user to set the cost of registering a hospital
-    function setCost(uint _fee) external onlyOwner {
-        cost = _fee;
-    }
 }
